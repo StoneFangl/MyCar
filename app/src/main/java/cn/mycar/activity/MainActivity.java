@@ -1,7 +1,9 @@
-package cn.mycar;
+package cn.mycar.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import cn.mycar.R;
 
 public class MainActivity extends AppCompatActivity {
 
