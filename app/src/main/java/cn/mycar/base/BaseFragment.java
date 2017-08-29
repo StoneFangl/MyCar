@@ -1,7 +1,6 @@
 package cn.mycar.base;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
@@ -26,7 +25,7 @@ public abstract class BaseFragment<V extends BaseView, P extends BasePresenter<V
 
     private View rootView;
 
-    private Unbinder mUnbinder;
+//    private Unbinder mUnbinder;
 
     public <T extends View> T findView(@IdRes int id){
         return (T)rootView.findViewById(id);
@@ -39,8 +38,8 @@ public abstract class BaseFragment<V extends BaseView, P extends BasePresenter<V
 
         context = getActivity();
         rootView = inflater.inflate(getRootViewId(),container,false);
-        mUnbinder = ButterKnife.bind(this,rootView);
-        LogUtils.d("onCreateView");
+//        mUnbinder = ButterKnife.bind(this,rootView);
+//        LogUtils.d("onCreateView");
         initUI();
         return rootView;
     }
@@ -48,8 +47,8 @@ public abstract class BaseFragment<V extends BaseView, P extends BasePresenter<V
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(mUnbinder!=null)
-            mUnbinder.unbind();
+//        if(mUnbinder!=null)
+//            mUnbinder.unbind();
     }
 
     public View getRootView(){
@@ -88,23 +87,24 @@ public abstract class BaseFragment<V extends BaseView, P extends BasePresenter<V
 
 
     public static void registerEvent(Object obj){
-        EventBus.getDefault().register(obj);
+//        EventBus.getDefault().register(obj);
     }
 
     public static void unregisterEvent(Object obj){
-        EventBus.getDefault().unregister(obj);
+//        EventBus.getDefault().unregister(obj);
     }
 
     public static void sendEvent(Object obj){
-        EventBus.getDefault().post(obj);
+//        EventBus.getDefault().post(obj);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+   /* @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(Object obj){
 
-    }
+    }*/
 
     //--------------------------------
+/*
 
     protected Intent getIntent(){
         return getActivity().getIntent();
@@ -160,6 +160,7 @@ public abstract class BaseFragment<V extends BaseView, P extends BasePresenter<V
         Intent intent = getFragmentIntent(Constants.ABOUT_FRAGMENT);
         startActivity(intent);
     }
+*/
 
     //--------------------------------
 

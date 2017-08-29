@@ -17,8 +17,9 @@
 
 package mvp.delegate;
 
-import com.hannesdorfmann.mosby.mvp.MvpPresenter;
-import com.hannesdorfmann.mosby.mvp.MvpView;
+
+import mvp.view.MvpPresenter;
+import mvp.view.MvpView;
 
 /**
  * This kind of class is used in Activities to save the presenter in retaining activities.  It's a

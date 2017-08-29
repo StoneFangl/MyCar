@@ -13,10 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package mvp.delegate;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 
 import mvp.view.MvpPresenter;
 import mvp.view.MvpView;
@@ -52,52 +54,63 @@ public interface ActivityMvpDelegate<V extends MvpView, P extends MvpPresenter<V
    * This method must be called from {@link Activity#onCreate(Bundle)}.
    * This method internally creates the presenter and attaches the view to it.
    */
-  void onCreate(Bundle bundle);
+  public void onCreate(Bundle bundle);
 
   /**
    * This method must be called from {@link Activity#onDestroy()}}.
    * This method internally detaches the view from presenter
    */
-  void onDestroy();
+  public void onDestroy();
 
   /**
    * This method must be called from {@link Activity#onPause()}
    */
-  void onPause();
+  public void onPause();
 
   /**
    * This method must be called from {@link Activity#onResume()}
    */
-  void onResume();
+  public void onResume();
 
   /**
    * This method must be called from {@link Activity#onStart()}
    */
-  void onStart();
+  public void onStart();
 
   /**
    * This method must be called from {@link Activity#onStop()}
    */
-  void onStop();
+  public void onStop();
 
   /**
    * This method must be called from {@link Activity#onRestart()}
    */
-  void onRestart();
+  public void onRestart();
 
   /**
    * This method must be called from {@link Activity#onContentChanged()}
    */
-  void onContentChanged();
+  public void onContentChanged();
 
   /**
    * This method must be called from {@link Activity#onSaveInstanceState(Bundle)}
    */
-  void onSaveInstanceState(Bundle outState);
+  public void onSaveInstanceState(Bundle outState);
 
   /**
    * This method must be called from {@link Activity#onPostCreate(Bundle)}
    */
-  void onPostCreate(Bundle savedInstanceState);
+  public void onPostCreate(Bundle savedInstanceState);
 
+  /**
+   * This method must be called from {@link FragmentActivity#onRetainCustomNonConfigurationInstance()}
+   *
+   * @return Don't forget to return the value returned by this delegate method
+   */
+  public Object onRetainCustomNonConfigurationInstance();
+
+  /**
+   * @return the value returned from {@link ActivityMvpDelegateCallback#onRetainNonMosbyCustomNonConfigurationInstance()}
+   */
+  public Object getNonMosbyLastCustomNonConfigurationInstance();
 }

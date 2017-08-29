@@ -11,7 +11,7 @@ public class BasePresenter<V extends BaseView> extends MvpBasePresenter<V> {
 
     private App app;
 
-    private DaoSession mDaoSession;
+   /* private DaoSession mDaoSession;
 
     private AppComponent mAppComponent;
 
@@ -31,14 +31,14 @@ public class BasePresenter<V extends BaseView> extends MvpBasePresenter<V> {
     public DaoSession getDaoSession(){
         return mDaoSession;
     }
-
+*/
     public App getApp(){
         return getApp();
     }
 
     @Override
     public boolean isViewAttached() {
-        LogUtils.d("isViewAttached:" + super.isViewAttached());
+//        LogUtils.d("isViewAttached:" + super.isViewAttached());
         return super.isViewAttached();
     }
 }
