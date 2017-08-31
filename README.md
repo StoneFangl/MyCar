@@ -20,4 +20,5 @@
                      .compose(this.bindUntilEvent(ActivityEvent.PAUSE))  
                      .subscribe(mSub);
 4.状态栏的工具类，可以更改状态栏的颜色，以及设计Drawerlayout的问题。解决部分机型上面的黑色图标。
-5.
+5.ImageLoader封装的是一个网络的图片加载框架，采用的是策略模式，可以切换分别是要使用什么图片框架的。
+    

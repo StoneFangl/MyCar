@@ -29,7 +29,13 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.3.1'
     testCompile 'junit:junit:4.12'
     //RxLifecycle的引入
-    compile 'com.trello:rxlifecycle:0.3.0'
-    compile 'com.trello:rxlifecycle-components:0.3.0'
-    compile 'com.android.support:design:26.0.0-alpha1'
+    // If you want to use Android Lifecycle for providers
+    //exclude表示的是不包含这个module
+    compile 'io.reactivex.rxjava2:rxjava:2.1.1'
+    compile('com.trello.rxlifecycle2:rxlifecycle:2.1.0', {
+        exclude module: 'rxjava'
+        exclude module: 'jsr305'
+    })
+
+    compile "com.github.bumptech.glide:glide:3.8.0"
 }

@@ -298,6 +298,7 @@ public class StatusBarUtil {
         }
         // 设置属性
         setDrawerLayoutProperty(drawerLayout, contentLayout);
+        //还在改颜色，上面添加的时候已经设置过了颜色，而上面只是添加颜色，下面要根据透明度修改颜色
         addTranslucentView(activity, statusBarAlpha);
     }
 
@@ -309,9 +310,12 @@ public class StatusBarUtil {
      */
     private static void setDrawerLayoutProperty(DrawerLayout drawerLayout, ViewGroup drawerLayoutContentLayout) {
         ViewGroup drawer = (ViewGroup) drawerLayout.getChildAt(1);
+        //?
         drawerLayout.setFitsSystemWindows(false);
+        //设置内容不管状态栏直接在最顶部
         drawerLayoutContentLayout.setFitsSystemWindows(false);
         drawerLayoutContentLayout.setClipToPadding(true);
+        //设置抽屉侧边栏置顶
         drawer.setFitsSystemWindows(false);
     }
 
