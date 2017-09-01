@@ -11,7 +11,7 @@ import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.Target;
 
-import imageloader.base.BaseImagerLoaderStrategy;
+import imageloader.base.BaseImageLoaderStrategy;
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
@@ -22,7 +22,7 @@ import io.reactivex.schedulers.Schedulers;
  * @desc Glide加载的策略
  */
 
-public class GlideImageLoaderStrategy implements BaseImagerLoaderStrategy<GlideImageConfig> {
+public class GlideImageLoaderStrategy implements BaseImageLoaderStrategy<GlideImageConfig> {
     public void loadImage(Context ctx, GlideImageConfig config) {
         //先对数据进行判断
         if (ctx == null)

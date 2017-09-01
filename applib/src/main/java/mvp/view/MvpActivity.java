@@ -18,16 +18,12 @@ package mvp.view;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 
-import com.trello.rxlifecycle.ActivityEvent;
-import com.trello.rxlifecycle.RxLifecycle;
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import mvp.delegate.ActivityMvpDelegate;
 import mvp.delegate.ActivityMvpDelegateCallback;
 import mvp.delegate.ActivityMvpDelegateImpl;
-import rx.Observable;
-import rx.subjects.BehaviorSubject;
 
 /**
  * An Activity that uses a {@link MvpPresenter} to implement a Model-View-Presenter
@@ -37,26 +33,23 @@ import rx.subjects.BehaviorSubject;
  * @since 1.0.0
  */
 public abstract class MvpActivity<V extends MvpView, P extends MvpPresenter<V>>
-        extends AppCompatActivity implements MvpView,
-        ActivityMvpDelegateCallback<V, P>, ActivityLifecycleProvider {
+        extends RxAppCompatActivity implements MvpView,
+        ActivityMvpDelegateCallback<V, P> {
 
     protected ActivityMvpDelegate mvpDelegate;
     protected P presenter;
     protected boolean retainInstance;
-    private final BehaviorSubject<ActivityEvent> lifecycleSubject = BehaviorSubject.create();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getMvpDelegate().onCreate(savedInstanceState);
-        lifecycleSubject.onNext(ActivityEvent.CREATE);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         getMvpDelegate().onDestroy();
-        lifecycleSubject.onNext(ActivityEvent.DESTROY);
     }
 
     @Override
@@ -69,28 +62,24 @@ public abstract class MvpActivity<V extends MvpView, P extends MvpPresenter<V>>
     protected void onPause() {
         super.onPause();
         getMvpDelegate().onPause();
-        lifecycleSubject.onNext(ActivityEvent.PAUSE);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         getMvpDelegate().onResume();
-        lifecycleSubject.onNext(ActivityEvent.RESUME);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         getMvpDelegate().onStart();
-        lifecycleSubject.onNext(ActivityEvent.START);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         getMvpDelegate().onStop();
-        lifecycleSubject.onNext(ActivityEvent.STOP);
     }
 
     @Override
@@ -111,21 +100,6 @@ public abstract class MvpActivity<V extends MvpView, P extends MvpPresenter<V>>
         getMvpDelegate().onPostCreate(savedInstanceState);
     }
 
-    /*RxLifecycle的实现方法*/
-    @Override
-    public final Observable<ActivityEvent> lifecycle() {
-        return lifecycleSubject.asObservable();
-    }
-
-    @Override
-    public final <T> Observable.Transformer<T, T> bindUntilEvent(ActivityEvent event) {
-        return RxLifecycle.bindUntilActivityEvent(lifecycleSubject, event);
-    }
-
-    @Override
-    public final <T> Observable.Transformer<T, T> bindToLifecycle() {
-        return RxLifecycle.bindActivity(lifecycleSubject);
-    }
 
     /**
      * Instantiate a presenter instance

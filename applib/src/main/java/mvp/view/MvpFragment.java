@@ -20,19 +20,14 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
-import com.trello.rxlifecycle.FragmentEvent;
-import com.trello.rxlifecycle.RxLifecycle;
-import com.trello.rxlifecycle.components.FragmentLifecycleProvider;
+import com.trello.rxlifecycle2.components.support.RxFragment;
 
 import mvp.delegate.BaseMvpDelegateCallback;
 import mvp.delegate.FragmentMvpDelegate;
 import mvp.delegate.FragmentMvpDelegateImpl;
-import rx.Observable;
-import rx.subjects.BehaviorSubject;
 
 /**
  * A Fragment that uses an {@link MvpPresenter} to implement a Model-View-Presenter
@@ -41,11 +36,10 @@ import rx.subjects.BehaviorSubject;
  * @author Hannes Dorfmann
  * @since 1.0.0
  */
-public abstract class MvpFragment<V extends MvpView, P extends MvpPresenter<V>> extends Fragment
-    implements BaseMvpDelegateCallback<V, P>, MvpView,FragmentLifecycleProvider {
+public abstract class MvpFragment<V extends MvpView, P extends MvpPresenter<V>> extends RxFragment
+    implements BaseMvpDelegateCallback<V, P>, MvpView{
 
   protected FragmentMvpDelegate<V, P> mvpDelegate;
-  private final BehaviorSubject<FragmentEvent> lifecycleSubject = BehaviorSubject.create();
   /**
    * The presenter for this view. Will be instantiated with {@link #createPresenter()}
    */
@@ -106,49 +100,41 @@ public abstract class MvpFragment<V extends MvpView, P extends MvpPresenter<V>> 
   @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     getMvpDelegate().onViewCreated(view, savedInstanceState);
-    lifecycleSubject.onNext(FragmentEvent.CREATE_VIEW);
   }
 
   @Override public void onDestroyView() {
     super.onDestroyView();
     getMvpDelegate().onDestroyView();
-    lifecycleSubject.onNext(FragmentEvent.DESTROY_VIEW);
   }
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     getMvpDelegate().onCreate(savedInstanceState);
-    lifecycleSubject.onNext(FragmentEvent.CREATE);
   }
 
   @Override public void onDestroy() {
     super.onDestroy();
     getMvpDelegate().onDestroy();
-    lifecycleSubject.onNext(FragmentEvent.DESTROY);
   }
 
   @Override public void onPause() {
     super.onPause();
     getMvpDelegate().onPause();
-    lifecycleSubject.onNext(FragmentEvent.PAUSE);
   }
 
   @Override public void onResume() {
     super.onResume();
     getMvpDelegate().onResume();
-    lifecycleSubject.onNext(FragmentEvent.RESUME);
   }
 
   @Override public void onStart() {
     super.onStart();
     getMvpDelegate().onStart();
-    lifecycleSubject.onNext(FragmentEvent.START);
   }
 
   @Override public void onStop() {
     super.onStop();
     getMvpDelegate().onStop();
-    lifecycleSubject.onNext(FragmentEvent.STOP);
   }
 
   @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -159,33 +145,16 @@ public abstract class MvpFragment<V extends MvpView, P extends MvpPresenter<V>> 
   @Override public void onAttach(Activity activity) {
     super.onAttach(activity);
     getMvpDelegate().onAttach(activity);
-    lifecycleSubject.onNext(FragmentEvent.ATTACH);
   }
 
   @Override public void onDetach() {
     super.onDetach();
     getMvpDelegate().onDetach();
-    lifecycleSubject.onNext(FragmentEvent.DETACH);
   }
 
   @Override public void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
     getMvpDelegate().onSaveInstanceState(outState);
-  }
-
-  @Override
-  public final Observable<FragmentEvent> lifecycle() {
-    return lifecycleSubject.asObservable();
-  }
-
-  @Override
-  public final <T> Observable.Transformer<T, T> bindUntilEvent(FragmentEvent event) {
-    return RxLifecycle.bindUntilFragmentEvent(lifecycleSubject, event);
-  }
-
-  @Override
-  public final <T> Observable.Transformer<T, T> bindToLifecycle() {
-    return RxLifecycle.bindFragment(lifecycleSubject);
   }
 
 }
